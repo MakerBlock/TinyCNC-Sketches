@@ -1,13 +1,9 @@
 /**
- * Simple Write. 
- * Check if the mouse is over a rectangle and writes the status to the serial port. 
- * This example works with the Wiring / Arduino program that follows below.
- */
+Processing code to send Gcode from Inkscape MakerBot Unicorn Plugin to Tiny CNC Drawing Robot
+**/
 
 import processing.serial.*;
 import java.io.*;
-//  import java.io.FileReader;
-
 
 Serial myPort;  // Create object from Serial class
 int val;        // Data received from the serial port
@@ -18,7 +14,7 @@ void setup()
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 115200);
   
-  readData("C:/Users/Jay/Desktop/MakerBot/processing-2.0.3/Sketchbook/Sketches/SendingSerial003/file.gcode");
+  readData("FILELOCATION/FILENAME.GCODE");
   }
 
 void readData(String myGcodeFile)
@@ -50,15 +46,4 @@ void readData(String myGcodeFile)
  e.printStackTrace();
  }
  }
-}
-
-void importTextFile(){   
-  String[] strLines = loadStrings("file.gcode"); // the name and extension of the file to import!
-  for(int i = 0; i < strLines.length; ++i){
-    String[] arrTokens = split(strLines[i], ',');       // use the split array with character to isolate each component
-    float xx = float(arrTokens[0]);                     // cast string value to a float values!
-    float yy = float(arrTokens[1]);                     // cast string value to a float values!
-    float zz = float(arrTokens[2]);                     // cast string value to a float values!
-   // pointList.add( new PVector(xx,yy,zz) );             // add values to a new array slot
-  }
 }
