@@ -4,9 +4,9 @@ Tiny 3-Axis CNC Sketch to draw shapes using the MakerBot Unicorn Inkscape plugin
 
 #include <Servo.h>
 
-#define SERVOPINX 13
-#define SERVOPINY 12
-#define SERVOPINZ 11
+#define SERVOPINX 11
+#define SERVOPINY 10
+#define SERVOPINZ 9
 #define LINE_BUFFER_LENGTH 512
 
 /* Structures, global variables    */
@@ -30,8 +30,8 @@ float ZgearD = 13.3239;
 int StepIncPower = 3;
 float StepInc = (1/ pow(2,StepIncPower));
 int StepDelay = 0;
-int LineDelay = 500;
-int penDelay = 500;
+int LineDelay = 50;
+int penDelay = 50;
 //  Rounding the mm2deg functions corrects for floating point errors
 float PowerRound = 2;
 
@@ -215,6 +215,7 @@ void processIncomingLine( char* line, int charNB ) {
           indexY = '\0';
           newPos.x = atof( indexX + 1);
         }
+        Serial.println("OK");
         drawLine((int) newPos.x, (int) newPos.y );
         actuatorPos.x = newPos.x;
         actuatorPos.y = newPos.y;
@@ -231,6 +232,7 @@ void processIncomingLine( char* line, int charNB ) {
         {
         char* indexS = strchr( line+currentIndex, 'S' );
         float Spos = atof( indexS + 1);
+        Serial.println("OK");
         if (Spos == 30) { penDown(); }
         if (Spos == 50) { penUp(); }
         break;
