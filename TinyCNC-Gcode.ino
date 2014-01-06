@@ -4,9 +4,9 @@ Tiny 3-Axis CNC Sketch to draw shapes using the MakerBot Unicorn Inkscape plugin
 
 #include <Servo.h>
 
-#define SERVOPINX 13
-#define SERVOPINY 12
-#define SERVOPINZ 11
+#define SERVOPINX 11
+#define SERVOPINY 10
+#define SERVOPINZ 9
 #define LINE_BUFFER_LENGTH 512
 
 /* Structures, global variables    */
