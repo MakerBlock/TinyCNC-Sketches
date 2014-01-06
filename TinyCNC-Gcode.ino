@@ -30,8 +30,8 @@ float ZgearD = 13.3239;
 int StepIncPower = 3;
 float StepInc = (1/ pow(2,StepIncPower));
 int StepDelay = 0;
-int LineDelay = 500;
-int penDelay = 500;
+int LineDelay = 50;
+int penDelay = 50;
 //  Rounding the mm2deg functions corrects for floating point errors
 float PowerRound = 2;
 
