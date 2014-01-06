@@ -215,6 +215,7 @@ void processIncomingLine( char* line, int charNB ) {
           indexY = '\0';
           newPos.x = atof( indexX + 1);
         }
+        Serial.println("OK");
         drawLine((int) newPos.x, (int) newPos.y );
         actuatorPos.x = newPos.x;
         actuatorPos.y = newPos.y;
@@ -231,6 +232,7 @@ void processIncomingLine( char* line, int charNB ) {
         {
         char* indexS = strchr( line+currentIndex, 'S' );
         float Spos = atof( indexS + 1);
+        Serial.println("OK");
         if (Spos == 30) { penDown(); }
         if (Spos == 50) { penUp(); }
         break;
