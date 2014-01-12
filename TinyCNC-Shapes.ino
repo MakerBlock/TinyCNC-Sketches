@@ -88,11 +88,10 @@ void setup() {
 void loop() 
   {
   delay(5000);
-//  drawCircle(30, 30, 10);
 //  drawCircle(50, 30, 10);
 //  drawCircleSpiral(40, 30, 10, 1);
 //  drawRect(15,15,80,35);
-//  drawRectSpiral(15,15,80,35,0.3, true);
+  drawRectSpiral(15,15,80,35,0.3, true);
   while(1) {}
   }
 
