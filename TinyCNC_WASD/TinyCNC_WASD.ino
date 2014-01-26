@@ -1,9 +1,9 @@
 //  Based on work by Oliv4945, https://github.com/Oliv4945/GcodeMiniCNC
 #include <Servo.h>
 
-#define PIN_SERVO_X 13
-#define PIN_SERVO_Y 12
-#define PIN_SERVO_Z 11
+#define PIN_SERVO_X 11
+#define PIN_SERVO_Y 10
+#define PIN_SERVO_Z 9
 #define LINE_BUFFER_LENGTH 512
 
   float movementIncrement = 2;
