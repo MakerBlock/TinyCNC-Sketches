@@ -186,9 +186,11 @@ void processIncomingLine( char* line, int charNB ) {
     switch ( line[ currentIndex++ ] ) {              // Select command, if any
     case 'U':
       penUp(); 
+      //Serial.println("ok");
       break;
     case 'D':
       penDown(); 
+      //Serial.println("ok");
       break;
     case 'G':
       buffer[0] = line[ currentIndex++ ];          // /!\ Dirty - Only works with 2 digit commands
@@ -197,6 +199,14 @@ void processIncomingLine( char* line, int charNB ) {
       buffer[1] = '\0';
 
       switch ( atoi( buffer ) ){                   // Select G command
+       case 4:
+       // delay
+       case 2:
+       // metrico
+       case 9:
+       Serial.println("90!");
+       Serial.println("ok");
+       break;
       case 0:                                   // G00 & G01 - Movement or fast movement. Same here
       case 1:
         // /!\ Dirty - Suppose that X is before Y
@@ -215,13 +225,13 @@ void processIncomingLine( char* line, int charNB ) {
           indexY = '\0';
           newPos.x = atof( indexX + 1);
         }
-        Serial.println("OK");
         drawLine((int) newPos.x, (int) newPos.y );
         actuatorPos.x = newPos.x;
         actuatorPos.y = newPos.y;
+        Serial.println("ok");
         break;
-      }
-      break;
+        }
+    break;
     case 'M':
       buffer[0] = line[ currentIndex++ ];        // /!\ Dirty - Only works with 3 digit commands
       buffer[1] = line[ currentIndex++ ];
@@ -235,6 +245,7 @@ void processIncomingLine( char* line, int charNB ) {
         Serial.println("OK");
         if (Spos == 30) { penDown(); }
         if (Spos == 50) { penUp(); }
+        Serial.println("ok");
         break;
         }
       case 114:                                // M114 - Repport position
@@ -243,6 +254,8 @@ void processIncomingLine( char* line, int charNB ) {
         Serial.print( "  -  Y = " );
         Serial.println( actuatorPos.y );
         break;
+      case 110:                                // M114 - Repport position
+         Serial.println("ok");
       default:
         Serial.print( "Command not recognized : M");
         Serial.println( buffer );
