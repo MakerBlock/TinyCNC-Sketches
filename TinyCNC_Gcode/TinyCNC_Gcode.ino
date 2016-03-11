@@ -35,13 +35,27 @@ int penDelay = 50;
 //  Rounding the mm2deg functions corrects for floating point errors
 float PowerRound = 2;
 
+/*
 //  Drawing robot limits, in degrees
 float Xdmin = 17;  //  8.31mm
 float Xdmax = 171;  //  83.57mm
-float Ydmin = 25;  //  Functionally 18 degrees  //  12.22mm
-float Ydmax = 146;  //  Functionally 146        //  71.35mm
+//float Ydmin = 25;  //  Functionally 18 degrees  //  12.22mm
+float Ydmin = 17;  //  Functionally 18 degrees  //  12.22mm
+//float Ydmax = 146;  //  Functionally 146        //  71.35mm
+float Ydmax = 171;  //  Functionally 146        //  71.35mm
+*/
+float Xdmin = 1;  //  8.31mm
+float Xdmax = 230;  //  83.57mm
+float Ydmin = 1;  //  Functionally 18 degrees  //  12.22mm
+float Ydmax = 230;  //  Functionally 146        //  71.35mm
+
+/*
 float Zdmin = 18;  
 float Zdmax = 50;
+*/
+
+float Zdmin = 50;  
+float Zdmax = 18;
 
 //  Drawing robot limits, in mm
 float Xmin = deg2mm(Xdmin);
@@ -54,6 +68,11 @@ float Zmax = Zdmax;
 float Xpos = Xdmin;
 float Ypos = Ydmin;
 float Zpos = Zmax; 
+
+// correccion 92
+float desX = 0;
+float desY = 0;
+float desZ = 0;
 
 boolean verbose = false;
 
@@ -186,11 +205,11 @@ void processIncomingLine( char* line, int charNB ) {
     switch ( line[ currentIndex++ ] ) {              // Select command, if any
     case 'U':
       penUp(); 
-      //Serial.println("ok");
+      Serial.println("ok");
       break;
     case 'D':
       penDown(); 
-      //Serial.println("ok");
+      Serial.println("ok");
       break;
     case 'G':
       buffer[0] = line[ currentIndex++ ];          // /!\ Dirty - Only works with 2 digit commands
@@ -204,14 +223,19 @@ void processIncomingLine( char* line, int charNB ) {
        case 2:
        // metrico
        case 9:
-       Serial.println("90!");
-       Serial.println("ok");
-       break;
+         Serial.println("ok");
+         if  (line[ currentIndex +2 ] == 2) { 
+                   desX = atof(strchr( line+currentIndex, 'X' )+ 1);  // Get X/Y position in the string (if any)
+            desY = atof(strchr( line+currentIndex, 'Y' )+ 1);
+            desZ = atof(strchr( line+currentIndex, 'Z' )+ 1);
+         }
+         break;
       case 0:                                   // G00 & G01 - Movement or fast movement. Same here
       case 1:
         // /!\ Dirty - Suppose that X is before Y
         char* indexX = strchr( line+currentIndex, 'X' );  // Get X/Y position in the string (if any)
         char* indexY = strchr( line+currentIndex, 'Y' );
+        char* indexZ = strchr( line+currentIndex, 'Z' );
         if ( indexY <= 0 ) {
           newPos.x = atof( indexX + 1); 
           newPos.y = actuatorPos.y;
@@ -225,9 +249,21 @@ void processIncomingLine( char* line, int charNB ) {
           indexY = '\0';
           newPos.x = atof( indexX + 1);
         }
-        drawLine((int) newPos.x, (int) newPos.y );
+        if ( indexZ <=   0 ) {
+          newPos.z = actuatorPos.z;
+        } else {
+            newPos.z = atof( indexZ + 1); 
+        }
+        
+         if ( indexZ > 0 ) {
+            servoZ.write(((int) mm2deg(newPos.z)*pow(10,PowerRound))/pow(10,PowerRound));
+            delay(300);
+         }
+        if ( indexX > 0 or indexY > 0 ) drawLine((int) newPos.x, (int) newPos.y);
+
         actuatorPos.x = newPos.x;
         actuatorPos.y = newPos.y;
+        actuatorPos.z = newPos.z;
         Serial.println("ok");
         break;
         }
@@ -242,9 +278,9 @@ void processIncomingLine( char* line, int charNB ) {
         {
         char* indexS = strchr( line+currentIndex, 'S' );
         float Spos = atof( indexS + 1);
-        Serial.println("OK");
         if (Spos == 30) { penDown(); }
         if (Spos == 50) { penUp(); }
+        Serial.println("baja o sube");
         Serial.println("ok");
         break;
         }
@@ -254,11 +290,10 @@ void processIncomingLine( char* line, int charNB ) {
         Serial.print( "  -  Y = " );
         Serial.println( actuatorPos.y );
         break;
-      case 110:                                // M114 - Repport position
-         Serial.println("ok");
       default:
         Serial.print( "Command not recognized : M");
         Serial.println( buffer );
+        Serial.println("ok");
       }
     }
   }
@@ -376,8 +411,9 @@ void drawRect(float x0, float y0, float x1, float y1, boolean toggle)
 void drawLine(float x1, float y1) {
 
   //  Convert coordinatesz to degrees
-  x1 = ((int) mm2deg(x1)*pow(10,PowerRound))/pow(10,PowerRound);
-  y1 = ((int) mm2deg(y1)*pow(10,PowerRound))/pow(10,PowerRound);
+  //  tiene la calibracion
+  x1 = ((int) mm2deg((x1 + desX) * 1.1)*pow(10,PowerRound))/pow(10,PowerRound);
+  y1 = ((int) mm2deg((y1 + desY)* 1.35)*pow(10,PowerRound))/pow(10,PowerRound) ;
   float x0 = Xpos;
   float y0 = Ypos;
 
