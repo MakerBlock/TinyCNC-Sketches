@@ -1,5 +1,7 @@
 /* 
 Tiny 3-Axis CNC Sketch to draw shapes using the MakerBot Unicorn Inkscape plugin available here https://github.com/martymcguire/inkscape-unicorn
+
+modificado por ernesto bazzano © 2016 - liberado bajo licencia GPL
 */
 
 #include <Servo.h>
