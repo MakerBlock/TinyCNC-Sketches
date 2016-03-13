@@ -1,4 +1,4 @@
-TinyCNC-Sketches
-================
+Arduino para TinyCNC
+====================
 
-Arduino sketches for the Tiny 3-Axis CNC and drawing robot
+Códigos de arduino para un dibujador de 3 ejes.

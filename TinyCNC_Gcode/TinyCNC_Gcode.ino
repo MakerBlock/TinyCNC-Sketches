@@ -44,26 +44,21 @@ float Ydmin = 17;  //  Functionally 18 degrees  //  12.22mm
 //float Ydmax = 146;  //  Functionally 146        //  71.35mm
 float Ydmax = 171;  //  Functionally 146        //  71.35mm
 */
-float Xdmin = 1;  //  8.31mm
-float Xdmax = 230;  //  83.57mm
-float Ydmin = 1;  //  Functionally 18 degrees  //  12.22mm
-float Ydmax = 230;  //  Functionally 146        //  71.35mm
+float Xdmin = 1;
+float Xdmax = 360;
+float Ydmin = 1;
+float Ydmax = 360;
 
-/*
-float Zdmin = 18;  
-float Zdmax = 50;
-*/
-
-float Zdmin = 50;  
-float Zdmax = 18;
+float Zdmin = 20; // down  
+float Zdmax = 0;  // up
 
 //  Drawing robot limits, in mm
 float Xmin = deg2mm(Xdmin);
 float Xmax = deg2mm(Xdmax);
 float Ymin = deg2mm(Ydmin);
 float Ymax = deg2mm(Ydmax);
-float Zmin = Zdmin;
-float Zmax = Zdmax;
+float Zmin = deg2mm(Zdmin);
+float Zmax = deg2mm(Zdmax);
 
 float Xpos = Xdmin;
 float Ypos = Ydmin;
